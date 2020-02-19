@@ -71,11 +71,32 @@ def logout():
     return redirect(url_for('home'))
 
 
+def get_uploaded_images():
+    import os
+    rootdir = os.getcwd()
+    print(rootdir)
+    ilist = []
+    for subdir, dirs, files in os.walk(rootdir + r'\app\static\uploads'):
+        for file in files:
+            ilist.append(file)
+
+    return ilist
+
+
+@app.route('/files')
+def files():
+    image_list = get_uploaded_images()
+    print(image_list)
+    return render_template('files.html', images=image_list)
+
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
 
 # Flash errors from the form if validation fails
+
+
 def flash_errors(form):
     for field, errors in form.errors.items():
         for error in errors:
